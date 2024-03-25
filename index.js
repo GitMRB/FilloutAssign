@@ -14,7 +14,7 @@ app.get('/:formId/filteredResponses', async (req, res) => {
     try {
         const response = await axios.get(`https://api.fillout.com/v1/api/forms/${formId}/submissions`, {
             headers: {
-                'Authorization': `Bearer sk_prod_TfMbARhdgues5AuIosvvdAC9WsA5kXiZlW8HZPaRDlIbCpSpLsXBeZO7dCVZQwHAY3P4VSBPiiC33poZ1tdUj2ljOzdTCCOSpUZ_3912`
+                'Authorization': `Bearer ${process.env.BEARER_TOKEN}`
             }
         });
 
