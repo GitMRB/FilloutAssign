@@ -4,10 +4,19 @@ import axios from "axios";
 const app = express();
 app.use(express.json());
 
+app.get('/', (req, res) => {
+    res.send('This is a GET request at /');
+});
+
 app.get('/:formId/filteredResponses', async (req, res) => {
     const { formId } = req.params;
     const { filters } = req.query;
     // console.log("filters before: ", filters);
+
+    if (!filters) {
+        return res.status(400).json({ error: 'No filters were provided.' });
+    }
+
     const parsedFilters = JSON.parse(filters);
     // console.log("parsedFilters after: ", parsedFilters);
 
@@ -51,6 +60,11 @@ app.get('/:formId/filteredResponses', async (req, res) => {
         res.status(500).json({ error: error.toString() });
     }
 });
+
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send("Something is broken!");
+})
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Server running on port ${port}`));
